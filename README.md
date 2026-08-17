@@ -2,18 +2,6 @@
 
 An AI-powered web application that generates creative stories in multiple languages based on user preferences. Built using **Python**, **Streamlit**, **LangChain**, and **Groq's Llama 3.3-70B-Versatile** model, the application allows users to create engaging, original stories with customizable language, tone, category, creativity, audience, and more.
 
----
-
-## 🚀 Live Demo
-
-https://jananipriya1110-multi-lingual-story-generator-genera-app-c0x2t8.streamlit.app/
-
----
-## 🎥 Demo Video
-
-Watch the project demo on LinkedIn:
-
-https://www.linkedin.com/posts/a-janani-priya-7676182a5_generativeai-artificialintelligence-llm-ugcPost-7486796401826390018-HAv0/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEmYoz8B4b0dmPZNZuMFQDe0u81Px1TfUkc
 
 ## 📌 Features
 
