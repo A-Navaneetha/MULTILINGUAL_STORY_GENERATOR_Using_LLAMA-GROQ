@@ -119,21 +119,25 @@ submit_button = st.sidebar.button(
 )
 
 if submit_button:
+    try:
+        final_prompt = st.session_state["template"].format(
+            language=language,
+            tone=tone,
+            storyIdea=storyIdea,
+            length=length,
+            grammar=grammar,
+            plagarism=plagarism,
+            catagories=categories,
+            character_names=characterNames,
+            time_period=timePeriod,
+            creativity=creativity,
+            audience=audience
+        )
 
-    final_prompt = st.session_state["template"].format(
-        language=language,
-        tone=tone,
-        storyIdea=storyIdea,
-        length=length,
-        grammar=grammar,
-        plagarism=plagarism,
-        catagories=categories,
-        character_names=characterNames,
-        time_period=timePeriod,
-        creativity=creativity,
-        audience=audience
-    )
+        response = st.session_state["model"].invoke(final_prompt)
 
-    response = st.session_state["model"].invoke(final_prompt)
+        st.write(response.content)
 
-    st.write(response.content)
+    except Exception as e:
+        st.error(f"Error: {type(e).__name__}")
+        st.error(str(e))
