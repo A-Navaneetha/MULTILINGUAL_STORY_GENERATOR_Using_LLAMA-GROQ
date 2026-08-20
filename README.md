@@ -1,7 +1,9 @@
 # 📖 Multi-Lingual Story Generator using Llama 3.3, LangChain & Groq
 
-An AI-powered web application that generates creative stories in multiple languages based on user preferences. Built using **Python**, **Streamlit**, **LangChain**, and **Groq's Llama 3.3-70B-Versatile** model, the application allows users to create engaging, original stories with customizable language, tone, category, creativity, audience, and more.
+An AI-powered web application that generates creative stories in multiple languages based on user preferences. Built using **Python**, **Streamlit**, **LangChain**, and **Groq's Llama** model, the application allows users to create engaging, original stories with customizable language, tone, category, creativity, audience, and more.
 
+## Live Demo
+(https://multilingualstorygeneratorusingllama-groq.streamlit.app/)
 
 ## 📌 Features
 
@@ -17,8 +19,6 @@ An AI-powered web application that generates creative stories in multiple langua
 - ⚡ Powered by Groq's Llama 3.3-70B model
 - 🖥️ Interactive Streamlit interface
 
----
-
 ## 🛠️ Technologies Used
 
 - Python
@@ -26,11 +26,8 @@ An AI-powered web application that generates creative stories in multiple langua
 - LangChain
 - LangChain-Groq
 - Groq API
-- Llama 3.3-70B-Versatile
+- Llama 
 - Prompt Engineering
-- Python Dotenv
-
----
 
 ## 📂 Project Structure
 
@@ -42,8 +39,6 @@ MultiLingualStoryGenerator/
 │── README.md
 │── .env (Not uploaded to GitHub)
 ```
-
----
 
 ## ⚙️ Installation
 
@@ -74,7 +69,7 @@ GROQ_API_KEY=your_groq_api_key
 ### Run the Application
 
 ```bash
-streamlit run app.py
+streamlit run pythonfile.py
 ```
 
 ---
@@ -91,8 +86,6 @@ streamlit run app.py
 8. Click **Generate Story**.
 9. Read the AI-generated story in the selected language.
 
----
-
 ## 🌐 Supported Languages
 
 - English
@@ -103,8 +96,6 @@ streamlit run app.py
 - Kannada
 - Chinese
 
----
-
 ## 🔮 Future Enhancements
 
 - 📄 Download stories as PDF
@@ -114,8 +105,6 @@ streamlit run app.py
 - 📚 Story history
 - 🌙 Dark mode
 - 🎙️ Voice input support
-
----
 
 ## 💡 Learning Outcomes
 
@@ -131,14 +120,10 @@ This project demonstrates practical knowledge of:
 - Git & GitHub
 - Streamlit Cloud Deployment
 
----
+## 👨‍💻 Developer
 
-## 👨‍💻 Author
+**A Navaneetha**
 
-** A Janani Priya**
+GitHub: https://github.com/A-Navaneetha
 
-GitHub: https://github.com/JananiPriya1110
-
-LinkedIn: https://www.linkedin.com/in/a-janani-priya-7676182a5/
-
----
+LinkedIn: https://www.linkedin.com/in/anavaneetha/
