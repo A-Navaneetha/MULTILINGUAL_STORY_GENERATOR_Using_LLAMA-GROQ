@@ -2,14 +2,33 @@ import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 
+# ---------------------------------------------------
+# Page Configuration
+# ---------------------------------------------------
+
+st.set_page_config(
+    page_title="Multilingual Story Generator",
+    page_icon="📖",
+    layout="wide"
+)
+# ---------------------------------------------------
+# Initialize Groq Model
+# ---------------------------------------------------
+
 if "model" not in st.session_state:
     st.session_state["model"] = ChatGroq(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         temperature=0.7,
         api_key=st.secrets["GROQ_API_KEY"]
     )
 
+
+# ---------------------------------------------------
+# Prompt Template
+# ---------------------------------------------------
+
 if "template" not in st.session_state:
+
     st.session_state["template"] = PromptTemplate(
         input_variables=[
             "language",
@@ -18,63 +37,115 @@ if "template" not in st.session_state:
             "length",
             "grammar",
             "plagarism",
-            "catagories",
+            "categories",
             "character_names",
             "time_period",
             "creativity",
             "audience"
         ],
+
         template="""
-Act like a professional story writer who writes fantastic stories
-that target an audience of {audience}.
+You are a professional and creative story writer.
 
-Write the story in {language}.
-Every word in the output must be in {language}, even though the input
-may be given in English.
+Write a fantastic and engaging story for the target audience:
+{audience}
 
-Follow the specified tone of {tone}.
-The creativity level is {creativity}.
-The time period is {time_period}.
-The grammar level should be {grammar}.
-Maintain the given {plagarism} level.
-Avoid emojis.
+IMPORTANT LANGUAGE REQUIREMENT:
+Write the entire story ONLY in {language}.
+Even if the user's input is written in English, the generated story
+must be written completely in {language}.
 
-The length of the story should be {length} paragraphs.
+Tone:
+{tone}
 
-The story should be about {storyIdea}.
-The category of the story is {catagories}.
+Creativity level:
+{creativity}
 
-The story contains the following character names:
+Time period:
+{time_period}
+
+Grammar level:
+{grammar}
+
+Originality requirement:
+Create an original story and avoid copying existing stories.
+
+Story length:
+Write approximately {length} paragraphs.
+
+Story idea:
+{storyIdea}
+
+Category:
+{categories}
+
+Character names:
 {character_names}
+
+Additional instructions:
+- Make the story engaging and coherent.
+- Give the story a suitable title.
+- Maintain consistency between characters and events.
+- Do not use emojis.
+- Do not explain your writing process.
+- Output only the story.
 """
     )
 
+
+# ---------------------------------------------------
+# Sidebar
+# ---------------------------------------------------
+
+st.sidebar.title("📖 Story Settings")
+
+
 language = st.sidebar.pills(
     "Enter Language",
-    ["English", "Telugu", "Hindi", "Tamil", "Urdu", "Kannada", "Chinese"]
+    [
+        "English",
+        "Telugu",
+        "Hindi",
+        "Tamil",
+        "Urdu",
+        "Kannada",
+        "Chinese"
+    ]
 )
 
 tone = st.sidebar.segmented_control(
     "Select Tone",
-    ["Friendly", "Narrative", "Poet"]
+    [
+        "Friendly",
+        "Narrative",
+        "Poetic"
+    ]
 )
 
-storyIdea = st.sidebar.text_area("Tell me about your story idea")
+storyIdea = st.sidebar.text_area(
+    "Tell me about your story idea"
+)
 
 length = st.sidebar.slider(
-    "Enter Number Of Paragraphs",
+    "Number of Paragraphs",
     1,
-    10
+    10,
+    3
 )
 
 grammar = st.sidebar.selectbox(
-    "Specify Grammar",
-    ["beginner", "intermediate", "professional"]
+    "Specify Grammar Level",
+    [
+        "Beginner",
+        "Intermediate",
+        "Professional"
+    ]
 )
 
 plagarism = st.sidebar.slider(
-    "Specify Plagiarism",
+    "Originality Level",
     0,
+    100,
     100
 )
 
@@ -99,45 +170,107 @@ characterNames = st.sidebar.text_area(
 
 timePeriod = st.sidebar.segmented_control(
     "Specify Time Period",
-    ["Ancient", "Modern", "Future"]
+    [
+        "Ancient",
+        "Modern",
+        "Future"
+    ]
 )
 
 creativity = st.sidebar.pills(
     "Specify Creativity",
-    ["Low", "Medium", "High"]
+    [
+        "Low",
+        "Medium",
+        "High"
+    ]
 )
 
 audience = st.sidebar.segmented_control(
-    "Enter Targeted Audience",
-    ["Toddlers", "Kids", "Adults", "OldPeople"]
+    "Target Audience",
+    [
+        "Toddlers",
+        "Kids",
+        "Adults",
+        "Old People"
+    ]
 )
 
+
 submit_button = st.sidebar.button(
-    "Submit",
+    "Generate Story",
     width="stretch",
     type="primary"
 )
 
+
+# ---------------------------------------------------
+# Main Application
+# ---------------------------------------------------
+
+st.title("📖 Multilingual Story Generator")
+
+st.write(
+    "Create original stories in multiple languages "
+    "with customizable tone, genre, creativity and audience."
+)
+
+
 if submit_button:
-    try:
-        final_prompt = st.session_state["template"].format(
-            language=language,
-            tone=tone,
-            storyIdea=storyIdea,
-            length=length,
-            grammar=grammar,
-            plagarism=plagarism,
-            catagories=categories,
-            character_names=characterNames,
-            time_period=timePeriod,
-            creativity=creativity,
-            audience=audience
-        )
 
-        response = st.session_state["model"].invoke(final_prompt)
+    if not language:
+        st.warning("Please select a language.")
 
-        st.write(response.content)
+    elif not tone:
+        st.warning("Please select a tone.")
 
-    except Exception as e:
-        st.error(f"Error: {type(e).__name__}")
-        st.error(str(e))
+    elif not storyIdea.strip():
+        st.warning("Please enter a story idea.")
+
+    elif not timePeriod:
+        st.warning("Please select a time period.")
+
+    elif not creativity:
+        st.warning("Please select a creativity level.")
+
+    elif not audience:
+        st.warning("Please select a target audience.")
+
+    else:
+
+        try:
+
+            # Create final prompt
+            final_prompt = st.session_state["template"].format(
+                language=language,
+                tone=tone,
+                storyIdea=storyIdea,
+                length=length,
+                grammar=grammar,
+                plagarism=plagarism,
+                categories=categories,
+                character_names=characterNames,
+                time_period=timePeriod,
+                creativity=creativity,
+                audience=audience
+            )
+
+            # Generate story
+            with st.spinner("Writing your story..."):
+
+                response = st.session_state["model"].invoke(
+                    final_prompt
+                )
+
+            # Display story
+            st.subheader("Your Story")
+
+            st.write(response.content)
+
+        except Exception as e:
+
+            st.error(
+                "Unable to generate the story."
+            )
+
+            st.exception(e)
